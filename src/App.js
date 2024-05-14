@@ -9,6 +9,9 @@ function App() {
     EntityName: "UsrDepositAccount"
   });
 
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showForm, setShowForm] = useState(true);
+
   const inputHandle = (e) => {
     const { name, value } = e.target;
     setFormData((data) => ({
@@ -19,6 +22,10 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.UsrEnterOtp) {
+      alert("Please enter your OTP.");
+      return; // Prevent form submission if OTP is not entered
+    }
     fetch(
       "https://webhooks.creatio.com/webhooks/7df1ce6d-59e7-4c12-8ea2-fff49d6e6bfd",
       {
@@ -31,9 +38,14 @@ function App() {
     )
       .then((response) => {
         if (response.ok) {
-          console.log("Form data sent successfully", response);
-          // Optionally, reset the form fields after successful submission
+          console.log("Form data sent successfully");
+          setSuccessMessage("Your OTP submitted successfully");
+          setShowForm(false)
           setFormData({ UsrEnterOtp: "", EntityName: "UsrDepositAccount" });
+          setTimeout(() => {
+            setSuccessMessage("");
+            setShowForm(true)
+          }, 3000);
         } else {
           console.error("Failed to send form data");
         }
@@ -51,19 +63,27 @@ function App() {
         style={{ maxWidth: "220px", margin: "0 auto" }}
         alt="Logo"
       />
-      <h2 id='heading'>To verify your Email enter OTP</h2>
+      {showForm && ( // Render the form only if formVisible is true
+        <>
+          <h2 id='heading'>To verify your Email enter OTP</h2>
 
-      <div className='verify-otp'>
-        <input
-          type="text"
-          name='UsrEnterOtp'
-          className="textarea"
-          value={formData.UsrEnterOtp}
-          onChange={inputHandle}
-          placeholder="Enter your Otp"
-        />
-        <button className='action-button' onClick={handleSubmit}>Verify</button>
-      </div>
+          <div className='verify-otp'>
+            <input
+              type="text"
+              name='UsrEnterOtp'
+              className="textarea"
+              value={formData.UsrEnterOtp}
+              onChange={inputHandle}
+              placeholder="Enter your Otp"
+              required
+            />
+            <button className='action-button' onClick={handleSubmit}>Verify</button>
+          </div>
+        </>
+      )}
+      {successMessage && (
+        <p style={{ color: "green" }}>{successMessage}</p>
+      )}
     </div>
   );
 }
