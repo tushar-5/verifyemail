@@ -45,7 +45,7 @@ function App() {
           setTimeout(() => {
             setSuccessMessage("");
             setShowForm(true)
-          }, 3000);
+          }, 5000);
         } else {
           console.error("Failed to send form data");
         }
