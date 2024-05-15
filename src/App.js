@@ -6,7 +6,7 @@ import logo from "./logo-implemify.png";
 function App() {
   const [formData, setFormData] = useState({
     UsrEnterOtp: "",
-    EntityName: "UsrVerifyEmail"
+    EntityName: "Webhook"
   });
 
   const [successMessage, setSuccessMessage] = useState("");
@@ -39,13 +39,10 @@ function App() {
       .then((response) => {
         if (response.ok) {
           console.log("Form data sent successfully");
-          setSuccessMessage("Your OTP submitted successfully");
-          setShowForm(false)
           setFormData({ UsrEnterOtp: "", EntityName: "UsrVerifyEmail" });
-          setTimeout(() => {
-            setSuccessMessage("");
-            setShowForm(true)
-          }, 5000);
+          setSuccessMessage("");
+          setShowForm(false)
+          setSuccessMessage("Your OTP submitted successfully");
         } else {
           console.error("Failed to send form data");
         }
