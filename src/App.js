@@ -6,7 +6,7 @@ import logo from "./logo-implemify.png";
 function App() {
   const [formData, setFormData] = useState({
     UsrEnterOtp: "",
-    EntityName: "UsrDepositAccount"
+    EntityName: "UsrVerifyEmail"
   });
 
   const [successMessage, setSuccessMessage] = useState("");
@@ -41,7 +41,7 @@ function App() {
           console.log("Form data sent successfully");
           setSuccessMessage("Your OTP submitted successfully");
           setShowForm(false)
-          setFormData({ UsrEnterOtp: "", EntityName: "UsrDepositAccount" });
+          setFormData({ UsrEnterOtp: "", EntityName: "UsrVerifyEmail" });
           setTimeout(() => {
             setSuccessMessage("");
             setShowForm(true)
